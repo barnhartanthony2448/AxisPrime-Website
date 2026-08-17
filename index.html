@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AxisPrime, Inc. — Powering the People Behind Every Event</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:      #D62828;
+      --red-dim:  rgba(214,40,40,0.15);
+      --red-glow: rgba(214,40,40,0.4);
+      --bg:       #080808;
+      --bg2:      #0F0F0F;
+      --bg3:      #161616;
+      --card:     #111111;
+      --border:   rgba(255,255,255,0.07);
+      --white:    #FFFFFF;
+      --gray:     #888888;
+      --light:    rgba(255,255,255,0.06);
+      --font-head:'Barlow Condensed', sans-serif;
+      --font-body:'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    /* ── Navigation ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      padding: 0 60px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+
+    nav.scrolled {
+      background: rgba(8,8,8,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%);
+    }
+
+    .logo-mark span {
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -1px;
+    }
+
+    .logo-text {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .logo-text em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--red) !important;
+      color: var(--white) !important;
+      padding: 10px 24px !important;
+      font-weight: 700 !important;
+      letter-spacing: 2px !important;
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 90% 100%, 0 100%) !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── Hero ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Animated canvas background */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.35;
+    }
+
+    /* Red gradient accent */
+    .hero-glow {
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(214,40,40,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 60px 100px;
+      width: 100%;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 30px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    h1 {
+      font-family: var(--font-head);
+      font-size: clamp(64px, 9vw, 130px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+
+    h1 .red { color: var(--red); }
+
+    h1 .outline {
+      -webkit-text-stroke: 2px rgba(255,255,255,0.25);
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--gray);
+      max-width: 540px;
+      line-height: 1.75;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 36px;
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+    }
+
+    .btn-red {
+      background: var(--red);
+      color: var(--white);
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 93% 100%, 0 100%);
+    }
+
+    .btn-red:hover { background: #B82020; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.25);
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 93% 100%, 0 100%);
+    }
+
+    .btn-ghost:hover { border-color: var(--red); color: var(--red); }
+
+    /* Hero scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #444;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: #333;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -40px;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+      animation: scrollPulse 2s 1.4s infinite;
+    }
+
+    /* Hero stats bar */
+    .hero-stats {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      display: flex;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeIn 1s 1s forwards;
+    }
+
+    .hero-stat {
+      flex: 1;
+      padding: 24px 40px;
+      border-right: 1px solid var(--border);
+      background: rgba(8,8,8,0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-stat:last-child { border-right: none; }
+
+    .hero-stat .num {
+      font-family: var(--font-head);
+      font-size: 40px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .hero-stat .num span { color: var(--red); }
+
+    .hero-stat .label {
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Sections shared ── */
+    section { padding: 120px 60px; }
+
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--red);
+    }
+
+    h2 {
+      font-family: var(--font-head);
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .lead {
+      font-size: 17px;
+      color: var(--gray);
+      line-height: 1.75;
+      max-width: 600px;
+    }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── About ── */
+    #about { background: var(--bg2); position: relative; overflow: hidden; }
+
+    #about::before {
+      content: 'AP';
+      position: absolute;
+      right: -60px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-head);
+      font-size: 360px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.02);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .about-copy p {
+      font-size: 16px;
+      color: #999;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .about-numbers {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .about-num-card {
+      background: var(--bg3);
+      padding: 36px 32px;
+      border-top: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .about-num-card:hover { border-color: var(--red); }
+
+    .about-num-card .big {
+      font-family: var(--font-head);
+      font-size: 58px;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .about-num-card .big em {
+      font-style: normal;
+      color: var(--red);
+    }
+
+    .about-num-card .desc {
+      font-size: 13px;
+      color: var(--gray);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── Snodo ── */
+    #snodo { background: var(--bg); }
+
+    .snodo-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feature {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .feature:first-child { border-top: 1px solid var(--border); }
+
+    .feature:hover .feature-num { color: var(--red); }
+
+    .feature-num {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      color: #333;
+      letter-spacing: 1px;
+      margin-top: 3px;
+      transition: color 0.2s;
+      min-width: 28px;
+    }
+
+    .feature h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .feature p {
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* Dashboard mockup */
+    .dashboard {
+      background: #0D0D0D;
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dash-topbar {
+      background: #111;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dash-title {
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .dash-live {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--red);
+    }
+
+    .dash-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 1.5s infinite;
+    }
+
+    .dash-body { padding: 20px; }
+
+    .dash-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      margin-bottom: 4px;
+      background: rgba(255,255,255,0.02);
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .dash-row:hover { background: rgba(255,255,255,0.04); }
+
+    .dash-row.on { border-left-color: var(--red); background: rgba(214,40,40,0.06); }
+
+    .dash-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #333;
+      flex-shrink: 0;
+    }
+
+    .dash-row.on .dash-dot { background: var(--red); animation: pulse 2s infinite; }
+
+    .dash-name {
+      flex: 1;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .dash-row.on .dash-name { color: #CCC; }
+
+    .dash-role {
+      font-size: 10px;
+      color: #444;
+      letter-spacing: 1px;
+    }
+
+    .dash-row.on .dash-role { color: #888; }
+
+    .dash-badge {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 3px 8px;
+      background: rgba(214,40,40,0.2);
+      color: var(--red);
+    }
+
+    .dash-badge.pending {
+      background: rgba(255,255,255,0.04);
+      color: #444;
+    }
+
+    .dash-footer {
+      margin: 16px 20px 20px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #444;
+    }
+
+    .dash-footer strong { color: var(--white); }
+
+    .dash-progress {
+      margin: 0 20px 20px;
+      background: #1A1A1A;
+      height: 3px;
+      position: relative;
+    }
+
+    .dash-progress-fill {
+      position: absolute;
+      left: 0; top: 0;
+      height: 100%;
+      background: var(--red);
+      width: 0%;
+      transition: width 2s 0.5s ease;
+    }
+
+    .snodo-label-bar {
+      background: var(--red);
+      padding: 12px 20px;
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      text-align: center;
+    }
+
+    /* ── Solutions ── */
+    #solutions {
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .solutions-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .sol-card {
+      background: var(--bg3);
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+      cursor: default;
+    }
+
+    .sol-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0%;
+      height: 3px;
+      background: var(--red);
+      transition: width 0.4s;
+    }
+
+    .sol-card:hover::after { width: 100%; }
+    .sol-card:hover { background: #131313; }
+
+    .sol-num {
+      font-family: var(--font-head);
+      font-size: 80px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      position: absolute;
+      top: 16px;
+      right: 24px;
+    }
+
+    .sol-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      margin-bottom: 28px;
+      color: var(--red);
+    }
+
+    .sol-card h3 {
+      font-family: var(--font-head);
+      font-size: 24px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      color: var(--white);
+    }
+
+    .sol-card p {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+    }
+
+    /* ── Why AxisPrime strip ── */
+    #why {
+      background: var(--red);
+      padding: 80px 60px;
+    }
+
+    .why-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    #why h2 {
+      font-family: var(--font-head);
+      font-size: clamp(40px, 4vw, 64px);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--white);
+    }
+
+    .why-points {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .why-point {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .why-check {
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(255,255,255,0.4);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .why-check svg { width: 12px; height: 12px; }
+
+    .why-point h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .why-point p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    /* ── Contact ── */
+    #contact { background: var(--bg); }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 100px;
+      margin-top: 60px;
+      align-items: start;
+    }
+
+    .contact-aside h3 {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .contact-aside p {
+      font-size: 15px;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-bottom: 40px;
+    }
+
+    .contact-items { display: flex; flex-direction: column; gap: 20px; }
+
+    .contact-item span:first-child {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 4px;
+    }
+
+    .contact-item a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-item a:hover { color: var(--red); }
+
+    /* Form */
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .form-group label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+      appearance: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #333; }
+
+    .form-group select option { background: var(--card); }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--red); }
+
+    .form-group textarea { resize: vertical; min-height: 130px; }
+
+    .form-note { font-size: 12px; color: #444; }
+
+    /* ── Footer ── */
+    footer {
+      background: #040404;
+      border-top: 1px solid var(--border);
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .footer-mark {
+      width: 30px;
+      height: 30px;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+    }
+
+    .footer-mark span {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .footer-name {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer p { font-size: 12px; color: #333; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    @keyframes scrollPulse {
+      from { left: -40px; }
+      to   { left: 40px; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      section { padding: 80px 24px; }
+      #why { padding: 60px 24px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
+      .hero-inner { padding: 120px 24px 100px; }
+      .about-layout, .snodo-layout, .contact-layout,
+      .why-inner, .solutions-header { grid-template-columns: 1fr; gap: 40px; }
+      .solutions-grid { grid-template-columns: 1fr; }
+      .about-numbers { grid-template-columns: 1fr 1fr; }
+      .hero-stats { position: static; flex-wrap: wrap; }
+      .form-row { grid-template-columns: 1fr; }
+      h1 { font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav id="nav">
+  <a href="#hero" class="logo">
+    <div class="logo-mark"><span>AP</span></div>
+    <span class="logo-text">Axis<em>Prime</em>, Inc.</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#snodo">Snodo</a></li>
+    <li><a href="#solutions">Solutions</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-glow"></div>
+
+  <div class="hero-inner">
+    <div class="hero-tag">AxisPrime, Inc. — Sports &amp; Entertainment Technology</div>
+
+    <h1>
+      The Engine<br/>
+      Behind <span class="red">Every</span><br/>
+      <span class="outline">Great Event</span>
+    </h1>
+
+    <p class="hero-sub">
+      AxisPrime builds the workforce infrastructure that powers race tracks, sporting arenas, racing series, and live event venues — so the people running your event have the platform they need to perform.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#solutions" class="btn btn-red">Our Solutions</a>
+      <a href="#snodo" class="btn btn-ghost">See Snodo</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num counter" data-target="1">0<span>st</span></div>
+      <div class="label">Flagship Platform Deployed</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">Race Tracks</div>
+      <div class="label">Primary Venue Type Served</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">Full Stack</div>
+      <div class="label">Volunteer → Check-In → Debrief</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">Real<span>-</span>Time</div>
+      <div class="label">Live Race Day Operations</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-tag reveal">About AxisPrime</div>
+    <h2 class="reveal">We Organize<br/>the Workforce<br/>Behind the Show</h2>
+
+    <div class="about-layout">
+      <div class="about-copy reveal">
+        <p>AxisPrime, Inc. was built on a single observation: the people who make great events happen — the marshals, the volunteers, the event directors — have never had software built specifically for them. They were running on spreadsheets, walkie-talkies, and paper sign-in sheets.</p>
+        <p>We changed that. AxisPrime provides purpose-built workforce technology and organizational infrastructure to race tracks, racing series, sporting arenas, and live event venues. Our platform, Snodo, handles everything from volunteer applications through race day check-in to post-event reporting.</p>
+        <p>We are a sports and entertainment technology company. Our software is built by people who understand motorsport operations — because we've worked them.</p>
+        <a href="#contact" class="btn btn-red" style="margin-top:16px; display:inline-flex;">Work With Us</a>
+      </div>
+
+      <div class="about-numbers reveal">
+        <div class="about-num-card">
+          <div class="big">100<em>%</em></div>
+          <div class="desc">Purpose-built for live sporting events — not adapted from generic HR software</div>
+        </div>
+        <div class="about-num-card">
+          <div class="big">1<em> App</em></div>
+          <div class="desc">End-to-end — volunteer management through race day operations in one platform</div>
+        </div>
+        <div class="about-num-card">
+          <div class="big">Real<em>-</em>Time</div>
+          <div class="desc">Live check-in, push alerts, emergency broadcasts — built for race pace</div>
+        </div>
+        <div class="about-num-card">
+          <div class="big">Any<em> Scale</em></div>
+          <div class="desc">Club races to national series — AxisPrime adapts to the size of your event</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Snodo ── -->
+<section id="snodo">
+  <div class="section-inner">
+    <div class="section-tag reveal">Flagship Product</div>
+    <h2 class="reveal">Snodo — Marshal &amp;<br/>Volunteer Ops,<br/>Rebuilt from Scratch</h2>
+
+    <div class="snodo-layout">
+      <div class="reveal">
+        <p class="lead" style="margin-bottom: 40px;">Snodo replaces the clipboard, the group text, and the spreadsheet with a single operations platform built specifically for motorsport event staffing.</p>
+
+        <div class="feature-list">
+          <div class="feature">
+            <div class="feature-num">01</div>
+            <div>
+              <h4>Volunteer Management</h4>
+              <p>Applications, tier tracking, training records, FIA compliance — every volunteer's complete history in one place.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-num">02</div>
+            <div>
+              <h4>Event Staffing &amp; Scheduling</h4>
+              <p>Build your roster, assign corner stations, manage availability conflicts before they become race-day problems.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-num">03</div>
+            <div>
+              <h4>Credentials &amp; Waivers</h4>
+              <p>Digital credential generation, waiver collection, and access control — all managed before the gates open.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-num">04</div>
+            <div>
+              <h4>Race Day Operations</h4>
+              <p>Live check-in board, push notifications, emergency alerts, no-show tracking — command center for race control.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-num">05</div>
+            <div>
+              <h4>Post-Event Reporting</h4>
+              <p>Debrief submissions, hours tracking, accountability reports — close out every event with a complete record.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard mockup -->
+      <div class="reveal">
+        <div class="dashboard">
+          <div class="dash-topbar">
+            <span class="dash-title">Snodo — Race Day</span>
+            <span class="dash-live">Live</span>
+          </div>
+          <div class="dash-body">
+            <div class="dash-row on">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Corner 4 — Marshal Post</div>
+              <div class="dash-role">Flag Marshal</div>
+              <div class="dash-badge">IN</div>
+            </div>
+            <div class="dash-row on">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Pit Lane Safety</div>
+              <div class="dash-role">Safety Marshal</div>
+              <div class="dash-badge">IN</div>
+            </div>
+            <div class="dash-row">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Start / Finish</div>
+              <div class="dash-role">Flag Marshal</div>
+              <div class="dash-badge pending">PENDING</div>
+            </div>
+            <div class="dash-row on">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Medical — Rescue A</div>
+              <div class="dash-role">Medical Officer</div>
+              <div class="dash-badge">IN</div>
+            </div>
+            <div class="dash-row on">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Corner 7 — Post Chief</div>
+              <div class="dash-role">Corner Chief</div>
+              <div class="dash-badge">IN</div>
+            </div>
+            <div class="dash-row">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Scrutineering</div>
+              <div class="dash-role">Technical Official</div>
+              <div class="dash-badge pending">PENDING</div>
+            </div>
+            <div class="dash-row on">
+              <div class="dash-dot"></div>
+              <div class="dash-name">Course Car — Driver</div>
+              <div class="dash-role">Safety Car</div>
+              <div class="dash-badge">IN</div>
+            </div>
+          </div>
+          <div class="dash-progress">
+            <div class="dash-progress-fill" id="dash-fill" style="width:71%"></div>
+          </div>
+          <div class="dash-footer">
+            <span><strong>10 / 14</strong> Checked In</span>
+            <span>71% Staffed</span>
+          </div>
+          <div class="snodo-label-bar">Snodo powered by AxisPrime, Inc.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Solutions ── -->
+<section id="solutions">
+  <div class="section-inner">
+    <div class="solutions-header">
+      <div>
+        <div class="section-tag reveal">Solutions</div>
+        <h2 class="reveal">Built for Your<br/>Type of Venue</h2>
+      </div>
+      <p class="lead reveal">Every event is different. Every venue has its own structure, its own pace, its own staffing challenges. AxisPrime adapts — we don't force you into a generic template.</p>
+    </div>
+
+    <div class="solutions-grid">
+      <div class="sol-card reveal">
+        <div class="sol-num">01</div>
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Race Tracks &amp; Circuits</h3>
+        <p>Permanent venues with recurring events need a trained, credentialed workforce that shows up ready. AxisPrime builds and maintains that roster season after season, with every marshal's training and history on record.</p>
+      </div>
+      <div class="sol-card reveal">
+        <div class="sol-num">02</div>
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Racing Series &amp; Sanctioning Bodies</h3>
+        <p>Multi-round championships mean different circuits, different volunteer pools, same standard of safety. We standardize your staffing process across every round so your operation runs identically at every venue.</p>
+      </div>
+      <div class="sol-card reveal">
+        <div class="sol-num">03</div>
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>Arenas &amp; Stadiums</h3>
+        <p>Large-capacity venues with complex volunteer programs need more than a sign-up sheet. AxisPrime brings motorsport-grade operations discipline to any large-scale live event environment — concerts, championships, tournaments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why strip ── -->
+<section id="why">
+  <div class="why-inner">
+    <div class="reveal">
+      <h2>Why<br/>Axis<br/>Prime?</h2>
+    </div>
+    <div class="why-points reveal">
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <div>
+          <h4>Built by people who work events</h4>
+          <p>AxisPrime wasn't designed by enterprise software developers. It was built by people who have stood post at a corner station and know what race day actually looks like.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <div>
+          <h4>One platform, zero spreadsheets</h4>
+          <p>From volunteer intake through post-event debrief, every part of your operation lives in Snodo. No more cross-referencing five different files on race morning.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <div>
+          <h4>Customizable for your organization</h4>
+          <p>Your branding, your roles, your credential types. Snodo deploys as a white-labeled platform configured specifically for your venue or series.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+        </div>
+        <div>
+          <h4>Scales with your events</h4>
+          <p>15 volunteers at a club race or 150 marshals at a national championship — the platform handles both without configuration changes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-tag reveal">Contact</div>
+    <h2 class="reveal">Let's Talk About<br/>Your Event</h2>
+
+    <div class="contact-layout">
+      <div class="contact-aside reveal">
+        <h3>Ready to bring order to your operation?</h3>
+        <p>Whether you're running a weekend club race or managing a national series, reach out and we'll walk you through exactly how AxisPrime and Snodo fit your organization.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <span>Tony Barnhart — Programming &amp; Operations</span>
+            <a href="mailto:tony@axisprimeinc.com">tony@axisprimeinc.com</a>
+          </div>
+          <div class="contact-item">
+            <span>Fallon Tucker — Sales &amp; Marketing</span>
+            <a href="mailto:Fallon@axisprimeinc.com">Fallon@axisprimeinc.com</a>
+          </div>
+          <div class="contact-item">
+            <span>Website</span>
+            <a href="https://axisprimeinc.com">axisprimeinc.com</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="John" required/>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Smith" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="john@yourorganization.com" required/>
+        </div>
+        <div class="form-group">
+          <label>Organization Type</label>
+          <select required>
+            <option value="" disabled selected>Select your organization type</option>
+            <option>Race Track / Circuit</option>
+            <option>Racing Series / Sanctioning Body</option>
+            <option>Sports Arena / Stadium</option>
+            <option>Event Organization</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Tell us about your event and what you're looking for..."></textarea>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <button type="submit" class="btn btn-red">Send Message</button>
+          <span class="form-note">We typically respond within one business day.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <a href="#hero" class="footer-logo">
+    <div class="footer-mark"><span>AP</span></div>
+    <span class="footer-name">AxisPrime, Inc.</span>
+  </a>
+  <p>&copy; 2026 AxisPrime, Inc. All rights reserved.</p>
+</footer>
+
+<script>
+// ── Nav scroll ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ── Animated canvas grid (circuit-inspired) ──
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const nodes = [];
+const NUM_NODES = 60;
+
+for (let i = 0; i < NUM_NODES; i++) {
+  nodes.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    r: Math.random() * 1.5 + 0.5,
+  });
+}
+
+function drawCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Move nodes
+  nodes.forEach(n => {
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+  });
+
+  // Draw connections
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 160) {
+        const alpha = (1 - dist/160) * 0.5;
+        ctx.strokeStyle = `rgba(214,40,40,${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  // Draw nodes
+  nodes.forEach(n => {
+    ctx.fillStyle = 'rgba(214,40,40,0.6)';
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(drawCanvas);
+}
+drawCanvas();
+
+// ── Scroll reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+reveals.forEach(el => observer.observe(el));
+
+// ── Contact form ──
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#1a7a3c';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Send Message';
+    btn.style.background = '';
+    btn.disabled = false;
+    e.target.reset();
+  }, 3000);
+}
+</script>
+</body>
+</html>
