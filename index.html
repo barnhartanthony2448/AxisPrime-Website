@@ -11,9 +11,9 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --red:      #D62828;
-      --red-dim:  rgba(214,40,40,0.15);
-      --red-glow: rgba(214,40,40,0.4);
+      --red:      #E4051A;
+      --red-dim:  rgba(228,5,26,0.15);
+      --red-glow: rgba(228,5,26,0.4);
       --bg:       #080808;
       --bg2:      #0F0F0F;
       --bg3:      #161616;
@@ -67,35 +67,10 @@
       text-decoration: none;
     }
 
-    .logo-mark {
-      width: 38px;
-      height: 38px;
-      background: var(--red);
-      display: grid;
-      place-items: center;
-      clip-path: polygon(0 0, 100% 0, 100% 75%, 75% 100%, 0 100%);
-    }
-
-    .logo-mark span {
-      font-family: var(--font-head);
-      font-size: 17px;
-      font-weight: 900;
-      color: var(--white);
-      letter-spacing: -1px;
-    }
-
-    .logo-text {
-      font-family: var(--font-head);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .logo-text em {
-      font-style: normal;
-      color: var(--red);
+    .logo-img {
+      height: 34px;
+      width: auto;
+      display: block;
     }
 
     .nav-links {
@@ -153,7 +128,7 @@
       left: -200px;
       width: 700px;
       height: 700px;
-      background: radial-gradient(circle, rgba(214,40,40,0.18) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(228,5,26,0.18) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -164,6 +139,15 @@
       margin: 0 auto;
       padding: 140px 60px 100px;
       width: 100%;
+    }
+
+    .hero-brand-banner {
+      max-width: 620px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0s forwards;
     }
 
     .hero-tag {
@@ -205,6 +189,20 @@
       -webkit-text-stroke: 2px rgba(255,255,255,0.25);
       color: transparent;
     }
+
+    .hero-tagline {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-tagline .red { color: var(--red); }
 
     .hero-sub {
       font-size: 17px;
@@ -566,7 +564,7 @@
 
     .dash-row:hover { background: rgba(255,255,255,0.04); }
 
-    .dash-row.on { border-left-color: var(--red); background: rgba(214,40,40,0.06); }
+    .dash-row.on { border-left-color: var(--red); background: rgba(228,5,26,0.06); }
 
     .dash-dot {
       width: 7px;
@@ -599,7 +597,7 @@
       font-weight: 700;
       letter-spacing: 1.5px;
       padding: 3px 8px;
-      background: rgba(214,40,40,0.2);
+      background: rgba(228,5,26,0.2);
       color: var(--red);
     }
 
@@ -898,28 +896,11 @@
       text-decoration: none;
     }
 
-    .footer-mark {
-      width: 30px;
-      height: 30px;
-      background: var(--red);
-      display: grid;
-      place-items: center;
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
-    }
-
-    .footer-mark span {
-      font-family: var(--font-head);
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .footer-name {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .footer-logo-img {
+      height: 28px;
+      width: auto;
+      display: block;
+      opacity: 0.7;
     }
 
     footer p { font-size: 12px; color: #333; }
@@ -968,8 +949,7 @@
 <!-- ── Nav ── -->
 <nav id="nav">
   <a href="#hero" class="logo">
-    <div class="logo-mark"><span>AP</span></div>
-    <span class="logo-text">Axis<em>Prime</em>, Inc.</span>
+    <img src="assets/logo-lockup.png" alt="AxisPrime, Inc. — Workforce Management Solutions" class="logo-img"/>
   </a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
@@ -985,6 +965,8 @@
   <div class="hero-glow"></div>
 
   <div class="hero-inner">
+    <img src="assets/logo-full.png" alt="AxisPrime, Inc. — Workforce Management Solutions: Sporting Events, Arenas, Stadiums, Race Tracks, Special Events" class="hero-brand-banner"/>
+
     <div class="hero-tag">AxisPrime, Inc. — Sports &amp; Entertainment Technology</div>
 
     <h1>
@@ -992,6 +974,8 @@
       <span class="red">Workforce</span><br/>
       <span class="outline">Program</span>
     </h1>
+
+    <p class="hero-tagline">Streamline People. <span class="red">Power</span> Performance.</p>
 
     <p class="hero-sub">
       AxisPrime builds the workforce infrastructure that powers race tracks, sporting arenas, racing series, and live event venues — so the people running your event have the platform they need to perform.
@@ -1193,26 +1177,42 @@
       <div class="sol-card reveal">
         <div class="sol-num">01</div>
         <div class="sol-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <h3>Race Tracks &amp; Circuits</h3>
-        <p>Permanent venues with recurring events need a trained, credentialed workforce that shows up ready. AxisPrime builds and maintains that roster season after season, with every marshal's training and history on record.</p>
+        <h3>Sporting Events</h3>
+        <p>Tournaments, championships, and multi-day competitions need a workforce that shows up credentialed and on time. AxisPrime keeps every volunteer, official, and staff member organized from registration through the final whistle.</p>
       </div>
       <div class="sol-card reveal">
         <div class="sol-num">02</div>
         <div class="sol-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="9" ry="6"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
         </div>
-        <h3>Racing Series &amp; Sanctioning Bodies</h3>
-        <p>Multi-round championships mean different circuits, different volunteer pools, same standard of safety. We standardize your staffing process across every round so your operation runs identically at every venue.</p>
+        <h3>Arenas</h3>
+        <p>Concerts, championships, and recurring ticketed events demand tight access control and a workforce that scales night to night. AxisPrime brings motorsport-grade staffing discipline to any arena operation.</p>
       </div>
       <div class="sol-card reveal">
         <div class="sol-num">03</div>
         <div class="sol-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
-        <h3>Arenas &amp; Stadiums</h3>
-        <p>Large-capacity venues with complex volunteer programs need more than a sign-up sheet. AxisPrime brings motorsport-grade operations discipline to any large-scale live event environment — concerts, championships, tournaments.</p>
+        <h3>Stadiums</h3>
+        <p>Large-capacity venues with complex volunteer programs need more than a sign-up sheet. AxisPrime organizes credentialing, scheduling, and day-of check-in for stadium-scale events of any size.</p>
+      </div>
+      <div class="sol-card reveal">
+        <div class="sol-num">04</div>
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <h3>Race Tracks &amp; Circuits</h3>
+        <p>Permanent venues with recurring events need a trained, credentialed workforce that shows up ready. AxisPrime builds and maintains that roster season after season, with every marshal's training and history on record. Racing series and sanctioning bodies get the same standardized process at every stop on the calendar.</p>
+      </div>
+      <div class="sol-card reveal">
+        <div class="sol-num">05</div>
+        <div class="sol-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v3M12 19v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+        </div>
+        <h3>Special Events</h3>
+        <p>One-off festivals, exhibitions, and special competitions don't get the luxury of a repeatable playbook. AxisPrime deploys fast, configures to your event's specific roles, and gives you full operational visibility even for a single-weekend show.</p>
       </div>
     </div>
   </div>
@@ -1333,8 +1333,7 @@
 <!-- ── Footer ── -->
 <footer>
   <a href="#hero" class="footer-logo">
-    <div class="footer-mark"><span>AP</span></div>
-    <span class="footer-name">AxisPrime, Inc.</span>
+    <img src="assets/logo-lockup.png" alt="AxisPrime, Inc." class="footer-logo-img"/>
   </a>
   <p>&copy; 2026 AxisPrime, Inc. All rights reserved.</p>
 </footer>
@@ -1389,7 +1388,7 @@ function drawCanvas() {
       const dist = Math.sqrt(dx*dx + dy*dy);
       if (dist < 160) {
         const alpha = (1 - dist/160) * 0.5;
-        ctx.strokeStyle = `rgba(214,40,40,${alpha})`;
+        ctx.strokeStyle = `rgba(228,5,26,${alpha})`;
         ctx.lineWidth = 0.5;
         ctx.beginPath();
         ctx.moveTo(nodes[i].x, nodes[i].y);
@@ -1401,7 +1400,7 @@ function drawCanvas() {
 
   // Draw nodes
   nodes.forEach(n => {
-    ctx.fillStyle = 'rgba(214,40,40,0.6)';
+    ctx.fillStyle = 'rgba(228,5,26,0.6)';
     ctx.beginPath();
     ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
     ctx.fill();
